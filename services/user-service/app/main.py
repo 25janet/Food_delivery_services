@@ -1,6 +1,8 @@
 from flask import Flask,jsonify
 from app.database.connection import db, get_database_url
 from app.models.user import User
+from app.routes.user import user_bp
+
 
 app = Flask(__name__)
 
@@ -11,11 +13,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #initialize the database
 db.init_app(app)
 
+app.register_blueprint(user_bp, url_prefix="/api")
+
 @app.route('/health', methods=['GET'])
 def health_check():
     return jsonify(
-        {"service": "User service"},
-        {"status": "healthy"}
+        {"service": "User service",
+        "status": "healthy"}
     )
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -27,4 +31,4 @@ def get_users():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host='0.0.0.0',port=5000)
+    app.run(host='0.0.0.0',port=5001)
