@@ -1,0 +1,2 @@
+# It is a special file placed inside a directory to turn that directory into a regular Python package. When you import a package or any module within it, 
+# the code inside its __init__.py file executes automatically exactly once
