@@ -1,10 +1,16 @@
 from flask import Flask,jsonify
+from importlib import import_module
+
+JWTManager = import_module("flask_jwt_extended").JWTManager
 from app.database.connection import db, get_database_url
 from app.models.user import User
 from app.routes.user import user_bp
 
 
 app = Flask(__name__)
+
+app.config["JWT_SECRET_KEY"] = "dev-secret-key"
+jwt = JWTManager(app)
 
 #database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = get_database_url()
