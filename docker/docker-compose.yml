@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: food_delivery_postgres
+    environment: 
+      POSTGRES_USER: food_user
+      POSTGRES_PASSWORD: food_password
+      POSTGRES_DB: user_db
+    ports:
+      - "5432:5432"
+
+  user-service:
+    build:
+        context: ../services/user-service
+        dockerfile: Dockerfile
+    image: food_service:v1
+    container_name: food_delivery_user_service
+    environment: 
+      DATABASE_URL: postgresql://food_user:food_password@postgres:5432/user_db
+    ports:
+      - "5001:5001"
+    depends_on:
+      - postgres
+
+      
